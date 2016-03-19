@@ -1,0 +1,94 @@
+/*初始化样式*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*公共样式，设置padding*/
+.container,
+.content,
+figure,
+article,
+aside {
+  padding: 20px;
+  border: 1px solid #999;
+}
+
+.container {
+  min-width: 600px;
+}
+
+/*content定义样式清除浮动*/
+.content {
+  background-color: #EEE;
+  max-height: 600px;
+}
+
+.content:after,
+.content:before {
+  content: "";
+  display: table;
+}
+
+.content:after {
+  clear: both;
+}
+
+/*三列布局公共样式*/
+figure,
+main,
+aside {
+  float: left;
+}
+
+/*main布局样式*/
+main {
+  width: 100%;
+}
+
+article {
+  margin: 0 142px 0 220px;
+}
+
+/*figure布局样式*/
+figure {
+  margin-left: -100%;
+  width: 200px;
+  height: 120px;
+  padding: 20px;
+}
+
+/*aside布局样式*/
+aside {
+  margin-left: -122px;
+}
+
+/*内容表现样式*/
+figure img {
+  float: left;
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+}
+
+figure,
+ul {
+  background-color: #fff;
+}
+
+ul > li {
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  list-style: none;
+}
+
+ul > li:first-child {
+  margin-top: 0;
+}
+
+ul > li > img {
+  width: 100%;
+  height: 100%;
+}
