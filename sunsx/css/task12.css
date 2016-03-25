@@ -1,0 +1,103 @@
+.container{
+  width:400px;
+  margin-left:auto;
+  margin-right: auto;
+}
+table{
+  width:100%;
+}
+th{
+  background-color: #000;
+  color: #fff;
+}
+tr:nth-child(2n){
+  background-color: #999;
+}
+tr:nth-child(1) td{
+  color: red;
+}
+tr:nth-child(2) td{
+  color: red;
+}
+tr:nth-child(3) td{
+  color: red;
+}
+.form-control{
+  width:170px;
+  background-color: #fff;
+  outline: none;
+  border:1px solid #ccc;
+  padding:4px 12px;
+  transition:width .2s;
+}
+.form-control:focus{
+  width:300px;
+  border-color:#219ff0;
+  box-shadow:0 0 5px #219ff0;
+}
+div,ul,ul li{
+  margin:0;
+  padding: 0;
+}
+.wrapper{
+  position: relative;
+  width:400px;
+  height:300px;
+  overflow: hidden;
+  margin-top:30px;
+}
+.viewport{
+  width:1200px;
+  height:300px;
+}
+ul>li{
+  /*固定*/
+  position: absolute;
+  left:0;
+  top:0;
+  /*样式*/
+  width:400px;
+  height:300px;
+  text-align: center;
+  list-style: none;
+  line-height:300px;
+  font-size:100px;
+}
+#bg1{
+  background-color: blue;
+}
+#bg2{
+  background-color: orange;
+}
+#bg3{
+  background-color: green;
+}
+
+.pager{
+  text-align: right;
+  position: absolute;
+  right:0;
+  bottom: 0;
+  z-index:2;
+}
+.pager a{
+  display: inline-block;
+  text-decoration: none;
+  color: #eee;
+  padding:6px 10px;
+  background-color: rgba(255,255,255,.5);
+}
+/*定义动画*/
+@keyframes move {
+  0%{
+    left:-400px;
+  }
+  100%{
+    left:0;
+  }
+}
+/*所有ID为bg开头的li作为target时执行动画*/
+li[id^=bg]:target{
+  z-index: 1;
+  animation: move 1s ease-out;
+}
