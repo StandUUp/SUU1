@@ -28,6 +28,7 @@ tr:nth-child(3) td{
   outline: none;
   border:1px solid #ccc;
   padding:4px 12px;
+  -webkit-transition:width .2s;
   transition:width .2s;
 }
 .form-control:focus{
@@ -88,6 +89,14 @@ ul>li{
   background-color: rgba(255,255,255,.5);
 }
 /*定义动画*/
+@-webkit-keyframes move {
+  0%{
+    left:-400px;
+  }
+  100%{
+    left:0;
+  }
+}
 @keyframes move {
   0%{
     left:-400px;
@@ -99,5 +108,6 @@ ul>li{
 /*所有ID为bg开头的li作为target时执行动画*/
 li[id^=bg]:target{
   z-index: 1;
-  animation: move 1s ease-out;
+  -webkit-animation: move 1s ease-out;
+          animation: move 1s ease-out;
 }
