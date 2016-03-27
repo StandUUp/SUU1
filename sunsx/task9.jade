@@ -19,13 +19,34 @@ html(lang="en")
         aside
             .avatar
                 span.name
-            |
             ul.profile
-                li
-                    a(href='#') 222
-                    br
-                    | read
-                li
-                    a(href='#') 222
-                    br
-                    | read
+                li: a(href="#") 222
+                    br/
+                    | 已阅
+                li: a(href="#") 222
+                    br/
+                    | 关注
+            ul.user-menu
+                each val,index in ["个人报表","个人收藏","我的分享","图库","成长记录","账户信息"]
+                    if index == 0
+                        li
+                            a.dropdown-btn
+                                span(class='icon')
+                                = val
+                            ul.second-menu
+                            - for(var j=0;j<3;j++)
+                            li
+                                a.directory: span.arrow
+                                ul.third-menu
+                                    li: a.files 文件
+                                    li: a.files 文件
+                    else
+                        li: a
+                            span(class='icon')
+                                = val
+
+
+
+
+
+
