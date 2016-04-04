@@ -1,0 +1,46 @@
+body, div {
+    margin: 0;
+    padding: 0;
+}
+
+div[class^=content-] {
+    width: 150px;
+    border:1px solid #ff0000;
+    padding:20px;
+    margin:10px;
+}
+
+.content-1 {
+    height: 120px;
+}
+
+.content-2 {
+    height: 100px;
+}
+
+.content-3 {
+    height: 40px;
+}
+
+div.content-4 {
+    height: 200px;
+    border-color:#0000ff;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+@media (max-width: 640px) {
+    .wrapper {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .content-4{
+        order: -1;
+    }
+}
