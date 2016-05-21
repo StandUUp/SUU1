@@ -34,7 +34,7 @@ function randomBuildData(seed) {
 }
 
 var aqiSourceData = {
-    "北京": randomBuildData(500),
+    "北京": randomBuildData(10),
     "上海": randomBuildData(300),
     "广州": randomBuildData(200),
     "深圳": randomBuildData(100),
@@ -67,11 +67,80 @@ function renderChart() {
  * 日、周、月的radio事件点击时的处理函数
  */
 function graTimeChange() {
+    var radios = document.getElementById('form-gra-time').elements['gra-time'];
+    var radioCurrent;
+    var cityCurrent = document.getElementById('city-select').value;
+
     // 确定是否选项发生了变化
 
-    // 设置对应数据
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked)
+            radioCurrent = radios[i].value;
+        radios[i].addEventListener('change', function () {
+            if (this.checked)
+                radioCurrent = this.value;
+            getData();
+        })
+    }
 
+    // 设置对应数据
+    function getData() {
+        var raw = aqiSourceData[cityCurrent];
+        var wrap = document.getElementById('aqi-chart-wrap');
+        var dataPerday = []
+        switch (radioCurrent) {
+            case 'day':
+                for (var i in raw) {
+                    dataPerday.push(raw[i]);
+                }
+                var dataStr = dataPerday.join();
+                wrap.innerHTML = dataStr;
+                break;
+            case 'week':
+                var weekData = 0;   //每周的数据
+                var weekDataArr = [];   //所有周的数据
+                var dayArr = []; //存储每天是周几的数组
+                for (var i in raw) {
+                    var date = new Date(i); // 日期转换
+                    dayArr.push(date.getDay()); //每天是周几
+                    weekData += raw[i]      // 每天数据相加
+                    if (date.getDay() == 0) { // 如果是0表示这一周结束
+                        weekDataArr.push(weekData); // 将当前周数据保存到数组中
+                        weekData = 0;               // 下周数据归零
+                    }
+                }
+                // 获取每周数据之和
+                if (weekData != 0) weekDataArr.push(weekData);
+                // console.log(weekDataArr);每周的数据之和
+                // 获取一共有几周
+                var weekLen = weekDataArr.length;
+                // 第一周以及最后一周的天数
+                var first = dayArr.indexOf(0);
+                var last = dayArr.lastIndexOf(0);
+                var firstWeekDays = dayArr.slice(0,first).length+1;
+                var lastWeekDays = dayArr.slice(last).length-1;
+                lastWeekDays =  lastWeekDays>0 ? lastWeekDays :7;
+                //求每周的平均数值
+                var averageData = [];
+                for(var i in weekDataArr){
+                    if(i==0){
+                        averageData.push(Math.round(weekDataArr[i]/firstWeekDays))
+                    }else if(i == weekLen-1){
+                        averageData.push(Math.round(weekDataArr[i]/lastWeekDays))
+                    }else {
+                       averageData.push(Math.round(weekDataArr[i]/7)) 
+                    }
+                }
+            //    console.log(averageData);每周的平均数据
+                break;
+            case 'month':
+                console.log('month');
+                break;
+        }
+    }
+    getData();
     // 调用图表渲染函数
+
 }
 
 /**
@@ -79,9 +148,15 @@ function graTimeChange() {
  */
 function citySelectChange() {
     // 确定是否选项发生了变化
-
+    var cityCurrent
+    var select = document.getElementById('city-select');
+    select.addEventListener('change', function () {
+        cityCurrent = this.value;
+        return cityCurrent;
+    })
     // 设置对应数据
-
+    var dataRaw = aqiSourceData[cityCurrent];
+    //
     // 调用图表渲染函数
 }
 
@@ -107,14 +182,14 @@ function initCitySelector() {
  */
 function initAqiChartData() {
     // 将原始的源数据处理成图表需要的数据格式
-  for(var city in aqiSourceData){
-      var cityData = aqiSourceData[city];
-      var dayData = [];
-      for(var day in cityData){
-          dayData.push(cityData[day]);
-      }
+    for (var city in aqiSourceData) {
+        var cityData = aqiSourceData[city];
+        var dayData = [];
+        for (var day in cityData) {
+            dayData.push(cityData[day]);
+        }
 
-  }
+    }
     // 处理好的数据存到 chartData 中
 }
 
@@ -122,9 +197,11 @@ function initAqiChartData() {
  * 初始化函数
  */
 function init() {
-    initGraTimeForm()
-    initCitySelector();
-    initAqiChartData();
+    // citySelectChange();
+    graTimeChange();
+    // initGraTimeForm();
+    // initCitySelector();
+    // initAqiChartData();
 }
 
 init();
