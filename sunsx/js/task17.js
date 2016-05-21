@@ -34,7 +34,7 @@ function randomBuildData(seed) {
 }
 
 var aqiSourceData = {
-    "北京": randomBuildData(10),
+    "北京": randomBuildData(500),
     "上海": randomBuildData(300),
     "广州": randomBuildData(200),
     "深圳": randomBuildData(100),
@@ -44,7 +44,6 @@ var aqiSourceData = {
     "厦门": randomBuildData(100),
     "沈阳": randomBuildData(500)
 };
-
 // 用于渲染图表的数据
 var chartData = {
 
@@ -70,9 +69,7 @@ function graTimeChange() {
     var radios = document.getElementById('form-gra-time').elements['gra-time'];
     var radioCurrent;
     var cityCurrent = document.getElementById('city-select').value;
-
     // 确定是否选项发生了变化
-
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked)
             radioCurrent = radios[i].value;
@@ -90,57 +87,14 @@ function graTimeChange() {
         var dataPerday = []
         switch (radioCurrent) {
             case 'day':
-                for (var i in raw) {
-                    dataPerday.push(raw[i]);
-                }
-                var dataStr = dataPerday.join();
-                wrap.innerHTML = dataStr;
                 break;
             case 'week':
-                var weekData = 0;   //每周的数据
-                var weekDataArr = [];   //所有周的数据
-                var dayArr = []; //存储每天是周几的数组
-                for (var i in raw) {
-                    var date = new Date(i); // 日期转换
-                    dayArr.push(date.getDay()); //每天是周几
-                    weekData += raw[i]      // 每天数据相加
-                    if (date.getDay() == 0) { // 如果是0表示这一周结束
-                        weekDataArr.push(weekData); // 将当前周数据保存到数组中
-                        weekData = 0;               // 下周数据归零
-                    }
-                }
-                // 获取每周数据之和
-                if (weekData != 0) weekDataArr.push(weekData);
-                // console.log(weekDataArr);每周的数据之和
-                // 获取一共有几周
-                var weekLen = weekDataArr.length;
-                // 第一周以及最后一周的天数
-                var first = dayArr.indexOf(0);
-                var last = dayArr.lastIndexOf(0);
-                var firstWeekDays = dayArr.slice(0,first).length+1;
-                var lastWeekDays = dayArr.slice(last).length-1;
-                lastWeekDays =  lastWeekDays>0 ? lastWeekDays :7;
-                //求每周的平均数值
-                var averageData = [];
-                for(var i in weekDataArr){
-                    if(i==0){
-                        averageData.push(Math.round(weekDataArr[i]/firstWeekDays))
-                    }else if(i == weekLen-1){
-                        averageData.push(Math.round(weekDataArr[i]/lastWeekDays))
-                    }else {
-                       averageData.push(Math.round(weekDataArr[i]/7)) 
-                    }
-                }
-            //    console.log(averageData);每周的平均数据
                 break;
             case 'month':
-                console.log('month');
                 break;
         }
     }
-    getData();
     // 调用图表渲染函数
-
 }
 
 /**
@@ -182,15 +136,69 @@ function initCitySelector() {
  */
 function initAqiChartData() {
     // 将原始的源数据处理成图表需要的数据格式
-    for (var city in aqiSourceData) {
-        var cityData = aqiSourceData[city];
-        var dayData = [];
-        for (var day in cityData) {
-            dayData.push(cityData[day]);
-        }
+    var cityCurrent = document.getElementById('city-select').value;
+    var raw = aqiSourceData[cityCurrent]; // 当前城市的源数据
 
+
+    // 日数据
+    var dataDays = []
+    for (var i in raw) {
+        dataDays.push(raw[i]);
     }
+
+    // 周数据
+    var dataPerWeek = 0;   //每周的数据
+    var dataWeeks = [];   //所有周的数据
+    var dayArr = []; //存储每天是周几的数组
+    for (var i in raw) {
+        var date = new Date(i); // 日期转换
+        dayArr.push(date.getDay()); //每天是周几
+        dataPerWeek += raw[i]      // 每天数据相加
+        if (date.getDay() == 0) { // 如果是0表示这一周结束
+            dataWeeks.push(dataPerWeek); // 将当前周数据保存到数组中
+            dataPerWeek = 0;               // 下周数据归零
+        }
+    }
+    // 获取每周数据之和
+    if (dataPerWeek != 0) dataWeeks.push(dataPerWeek);
+    // 获取一共有几周
+    var weeksLen = dataWeeks.length;
+    // 第一周以及最后一周的天数
+    var first = dayArr.indexOf(0);
+    var last = dayArr.lastIndexOf(0);
+    var firstWeekDays = dayArr.slice(0, first).length + 1;
+    var lastWeekDays = dayArr.slice(last).length - 1;
+    lastWeekDays = lastWeekDays > 0 ? lastWeekDays : 7;
+    //求每周的平均数值
+    var dataWeeksAverage = [];
+    for (var i in dataWeeks) {
+        if (i == 0) {
+            dataWeeksAverage.push(Math.round(dataWeeks[i] / firstWeekDays))
+        } else if (i == weeksLen - 1) {
+            dataWeeksAverage.push(Math.round(dataWeeks[i] / lastWeekDays))
+        } else {
+            dataWeeksAverage.push(Math.round(dataWeeks[i] / 7))
+        }
+    }
+
+    // 月数据
+    var monthArr = [], dataMonth = 0, dataMonths = [];
+    for (var i in raw) {
+        var date = new Date(i);
+        var m = date.getMonth();
+        if (monthArr.indexOf(m) == -1) {
+            if (dataMonth != 0) dataMonths.push(dataMonth);
+            monthArr.push(m);
+            dataMonth = raw[i];
+        } else {
+            dataMonth += raw[i]
+        }
+    }
+    dataMonths.push(dataMonth);
+
     // 处理好的数据存到 chartData 中
+    chartDate['day'] = dataDays;
+    chartDate['week'] = dataWeeksAverage;
 }
 
 /**
@@ -198,10 +206,10 @@ function initAqiChartData() {
  */
 function init() {
     // citySelectChange();
-    graTimeChange();
+    // graTimeChange();
     // initGraTimeForm();
     // initCitySelector();
-    // initAqiChartData();
+    initAqiChartData();
 }
 
 init();

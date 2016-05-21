@@ -1,0 +1,41 @@
+        .container {
+            width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        #aqi-chart-wrap {
+            word-break: break-all;
+        }
+        
+        .bar-day {
+            width: 15px
+        }
+        
+        .bar-week {
+            width: 60px;
+        }
+        
+        .bar-month {
+            width: 200px;
+        }
+        
+        .color-lowest {
+            background-color: green;
+        }
+        
+        .color-low {
+            background-color: blue;
+        }
+        
+        .color-medium {
+            background-color: red;
+        }
+        
+        .color-high {
+            background-color: purple;
+        }
+        
+        .color-highest {
+            background-color: black;
+        }
