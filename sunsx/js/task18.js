@@ -1,3 +1,4 @@
+'use stric'
 //生成一个模拟队列数组
 function getNumRandom() {
     var num = Math.ceil(Math.random() * 100);
@@ -48,19 +49,19 @@ function init() {
     });
     ol.addEventListener('click', function (e) {
         e.preventDefault();
-        if (arr1.lenth > 0) var num = arr1.shift();
+        if (arr1.length > 0) var num = arr1.shift();
         render();
         alert("从左侧删除：" + num);
     });
     or.addEventListener('click', function (e) {
         e.preventDefault();
-        if (arr1.lenth > 0) var num = arr1.pop();
+        if (arr1.length > 0) var num = arr1.pop();
         render();
         alert("从右侧删除：" + num);
     });
+    //只是删除dom元素，仍然保存原数据
     $('dom-wrap').addEventListener('click', function (e) {
         if (e.target.className == 'item') {
-            console.log(e.target.innerHTML);
             e.target.parentNode.removeChild(e.target);
         }
     })
