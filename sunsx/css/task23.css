@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.computer,
+.computer div {
+  display: flex;
+  position: relative;
+  padding-top: 30px;
+}
+
+.major {
+  flex: 4;
+}
+
+.case {
+  flex: 3;
+}
+
+.peripherals {
+  flex: 1;
+}
+
+.computer {
+  height: 420px;
+  margin: 30px;
+  border: 2px solid #666;
+}
+
+.computer div {
+  justify-content: center;
+  align-items: center;
+  min-height: 160px;
+  margin: 15px;
+  border: 2px solid #666;
+  background-color: #fff;
+}
+
+.computer.current,
+.computer div.current {
+  background-color: darkorange;
+}
+
+.computer>span,
+.computer div>span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  width: 100%;
+  text-align: center;
+  background-color: #eee;
+}
+
+.check-form {
+  margin: 0 30px;
+}

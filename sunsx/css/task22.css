@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  box-sizing: border-box;
+}
+
+.root {
+  width: 1200px;
+  height: 240px;
+  margin: 100px auto 30px;
+  border: 2px solid #999;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.root div {
+  border: 2px solid #999;
+  background-color: #fff;
+}
+
+.l1_l,
+.l1_r,
+.l2_l,
+.l2_r {
+  display: inline-block;
+  margin: 30px;
+  display: flex;
+  flex: 1;
+}
+
+
+.l3_l,
+.l3_r {
+  flex: 1;
+  margin: 30px;
+}
+
+div.current {
+  background-color: darkorange ;
+}
+
+button {
+  font-size: 20px;
+}
+
+.btn-group {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  margin-right: 20px;
+  padding: 0 10px;
+}
