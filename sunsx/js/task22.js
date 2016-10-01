@@ -46,7 +46,6 @@ preBtn.addEventListener('click', function () {
   divList = []
   i = 0
   preOrder(root)
-  console.log(divList);
   showTree()
 })
 

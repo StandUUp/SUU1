@@ -1,18 +1,23 @@
 'user strict'
 
-var preBtn = document.getElementByid('pre'),
-  inBtn = document.getElementByid('in'),
-  postBtn = document.getElementByid('post'),
+var brdBtn = document.getElementByid('breadthe'),
+  dpBtn = document.getElementByid('depth'),
   userInput = document.getElementByid('userInput'),
-  checkBtn = document.getElementByid('check')
+  checkBtn = document.getElementByid('check'),
+  orderArr = []
 
 var tree = function (element) {
   this.element = document.getElementById(element)
-  this.chidren = this.element.childen
+  this.children = this.element.children
 }
-tree.prototype.traversal = function () {
-  for (var i = 0; i < this.childen.length;i++) {
+
+tree.prototype.preOrder = function () {
+  if (this.children.length > 0) {
+    orderArr.push(this.children[0])
+    this.children = this.children[0].element.children
+    this.prototype.preOrder();
   }
+
 }
 
 tree.prototype.init = function () {
@@ -20,6 +25,11 @@ tree.prototype.init = function () {
   inBtn.addEventListener('click', this.inOrder())
   postBtn.addEventListener('click', this.postOrder())
   checkBtn.addEventListener('click', this.check())
+}
+
+
+tree.prototype.showTree = function(){
+
 }
 
 var tree1 = new tree('root')
