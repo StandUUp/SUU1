@@ -1,37 +1,39 @@
 'user strict'
 
-var brdBtn = document.getElementByid('breadthe'),
-  dpBtn = document.getElementByid('depth'),
-  userInput = document.getElementByid('userInput'),
-  checkBtn = document.getElementByid('check'),
-  orderArr = []
-
-var tree = function (element) {
-  this.element = document.getElementById(element)
-  this.children = this.element.children
-}
-
-tree.prototype.preOrder = function () {
-  if (this.children.length > 0) {
-    orderArr.push(this.children[0])
-    this.children = this.children[0].element.children
-    this.prototype.preOrder();
+var brBtn = document.getElementById('breadthe'),
+  dpBtn = document.getElementById('depth'),
+  userInput = document.getElementById('userInput'),
+  checkBtn = document.getElementById('check'),
+  computer = document.querySelector('.computer'),
+  nodeArr = []
+// 递归遍历
+function walkDom(node, callback) {
+  if (node === null) { // 判断node是否为null
+    return
   }
+  callback(node) // 将node自身传入callback
+  node = node.getElementsByTagName('div')[0] // 改变node为其子元素节点
+  while (node) {
+    walkDom(node, callback) // 如果存在子元素，则递归调用walkDom
+    node = node.nextElementSibling // 从头到尾遍历元素节点
+  }
+}
+walkDom(computer, function (node) {
+  nodeArr.push(node);
+})  // 包含document节点
 
+// 遍历可视化
+function walkShow(i) {
+  function show() {
+    nodeArr[i].classList.add("current");
+    if (i > 0) nodeArr[i - 1].classList.remove("current");
+    i += 1;
+    if (i < nodeArr.length) {
+      setTimeout(show, 500);
+    } 
+  }
+  show();
 }
 
-tree.prototype.init = function () {
-  preBtn.addEventListener('click', this.preOrder())
-  inBtn.addEventListener('click', this.inOrder())
-  postBtn.addEventListener('click', this.postOrder())
-  checkBtn.addEventListener('click', this.check())
-}
-
-
-tree.prototype.showTree = function(){
-
-}
-
-var tree1 = new tree('root')
-
-tree1.init()
+//绑定
+dpBtn.addEventListener("click", function () { walkShow(0) })
