@@ -71,21 +71,19 @@ function walkShow(val) {
   }
   // 有参数传进去的情况
   function showSituation(val) {
-    var index = textArr.indexOf(val)
+    var index = textArr.indexOf(val), i = 0;
     if (val.length == 0 || index == -1) {
       alert("没有发现元素");
     } else {
-      nodeArr[i].classList.add("current");
-      if (i > 0) nodeArr[i - 1].classList.remove("current");
-      i += 1;
-    }
-    function _timeOut() {
-      return function () {
-        showSituation(val)
+      function show() {
+        if (i <= index) nodeArr[i].classList.add("current");
+        if (i > 0) nodeArr[i - 1].classList.remove("current");
+        i += 1;
+        if (i <= index) {
+          setTimeout(show, 500);
+        }
       }
-    };
-    if (i < index) {
-      setTimeout(_timeOut, 500);
+      show();
     }
   }
   // 条件判断
