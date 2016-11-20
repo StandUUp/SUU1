@@ -1,9 +1,6 @@
 'user strict'
 
-var brBtn = document.getElementById('breadthe'),
-  dpBtn = document.getElementById('depth'),
-  userInput = document.getElementById('userInput'),
-  checkBtn = document.getElementById('check'),
+var checkBtn = document.getElementById('check'),
   computer = document.querySelector('.computer'),
   nodeArr = [], /*存储DOM元素*/
   textArr = []   /*存储DOM元素文本*/
@@ -39,6 +36,7 @@ function walkDom(node, callback) {
   }
 }
 
+//执行遍历，返回数组
 walkDom(computer, function (node) {
   nodeArr.push(node);
   var span = node.querySelector("span")
@@ -49,6 +47,7 @@ walkDom(computer, function (node) {
   }
 });
 
+//封装一个方法，检测标签
 function checkDiv() {
   var result = [];
   Array.prototype.slice.call(arguments).forEach(function (node) {
@@ -71,6 +70,9 @@ function walkShow(val) {
   }
   // 有参数传进去的情况
   function showSituation(val) {
+    // 清除已有样式
+    var currentDiv = document.querySelector(".current")
+    if(currentDiv) currentDiv.classList.remove("current");
     var index = textArr.indexOf(val), i = 0;
     if (val.length == 0 || index == -1) {
       alert("没有发现元素");
@@ -97,5 +99,4 @@ function walkShow(val) {
 
 
 //绑定
-dpBtn.addEventListener("click", function () { walkShow() })
 checkBtn.addEventListener("click", function () { walkShow(userInput.value) })
